@@ -1,0 +1,19 @@
+/* Base */
+html,
+body{
+    padding: 10;
+    margin: 10;
+}
+/* Grid */
+.grid{
+    width: 420px;
+    border: black solid;
+    display: flex;
+    flex-wrap: wrap;    
+}
+/* Squares */
+.grid div{
+    width: 15px;
+    height: 15px;
+    background-color: blue;    
+}
