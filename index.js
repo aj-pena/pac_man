@@ -48,10 +48,33 @@ function createBoard(){
     for (const element of layout){
         // create square
         const square = document.createElement('div')
+        // give square a class
+        if(element===0){
+            square.classList.add('pac-dot')
+        }else if(element===1){
+            square.classList.add('wall')
+        }else if(element===2){
+            square.classList.add('ghost-lair')
+        }else if (element===3){
+            square.classList.add('power-pellet')
+        }else{
+            square.classList.add('empty')
+        }
         // add square to grid
         grid.appendChild(square)
         // save square in squares array
         squares.push(square)
+        // if(element===0){
+        //     squares[i].classList.add('pac-dot')
+        // }else if(element===1){
+        //     squares[i].classList.add('wall')
+        // }else if(element===2){
+        //     squares[i].classList.add('ghost-lair')
+        // }else if (element===3){
+        //     squares[i].classList.add('power-pellet')
+        // }else{
+        //     squares[i].classList.add('empty')
+        // }       
 
     }
 }

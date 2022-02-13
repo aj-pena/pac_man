@@ -14,8 +14,7 @@ body{
 /* Squares */
 .grid div{
     width: 15px;
-    height: 15px;
-    background-color: darkcyan;    
+    height: 15px;     
 }
 .pac-dot{
     background-color: green;
