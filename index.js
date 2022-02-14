@@ -47,7 +47,8 @@ console.log(grid)
 function createBoard(){
     for (let i=0; i<layout.length; i++){
         // create square
-        const square = document.createElement('div')        
+        const square = document.createElement('div')
+        // square.innerText = i;        
         // add square to grid
         grid.appendChild(square)
         // save square in squares array
@@ -72,37 +73,60 @@ function createBoard(){
 createBoard()
 
 // Index of pacman's position
-let currentIndex = 500
+let currentIndex = 477
 squares[currentIndex].classList.add('pacman')
 
 // Control the movements of pacman
 function control(e){
     // erase pacman from starting position
     squares[currentIndex].classList.remove('pacman')
-    // left
-    if(e.key === 'ArrowLeft'){        
-        currentIndex -=1
-        // draw pacman in new position
-        squares[currentIndex].classList.add('pacman')
-    }else if (e.key ==='ArrowUp'){
-    // up    
-        currentIndex -=28
-        // draw pacman in new position
-        squares[currentIndex].classList.add('pacman')
 
-    }else if (e.key==='ArrowRight'){
-    // right
-        currentIndex +=1
-        // draw pacman in new position
-        squares[currentIndex].classList.add('pacman')
-    }else if (e.key ==='ArrowDown'){
-    // down    
-        currentIndex +=28
-        // draw pacman in new position
-        squares[currentIndex].classList.add('pacman')
+    switch (e.key){
+        case 'left': 
+            if(currentIndex % 28 !== 0){
+                currentIndex -=1
+            }                   
+        case 'ArrowLeft':
+            if(currentIndex % 28 !== 0){
+                currentIndex -=1            }           
+        break
+        case 'up':
+            if(currentIndex - 28 >= 0){
+                currentIndex -=28
+            }
+        case 'ArrowUp':
+            if(currentIndex - 28 >= 0){
+                currentIndex -=28
+            }
+        break
+        case 'rigth':
+            if(currentIndex % 28 < 28-1){
+                currentIndex +=1
+            }
+        case 'ArrowRight':
+            if(currentIndex % 28 < 28-1){
+                currentIndex +=1
+            }
+        break
+        case 'down':
+            if(currentIndex + 28 < 28*28){
+                currentIndex +=28
+            }
+        case 'ArrowDown':
+            if(currentIndex + 28 < 28*28){
+                currentIndex +=28
+            }
+        break
+        default:
+            return
     }
+    // draw pacman in new position
+    squares[currentIndex].classList.add('pacman')
+    // move left if index % 28 !== 0
+    // move right if index % 28 < 28-1
+    // move down if index + 28 < 28*28
+    // move up if index - 28 >= 0
+    
 }
-
-
 // event listener for arrow keys in the document
 document.addEventListener('keydown', control)
