@@ -1,7 +1,8 @@
 
 const grid = document.querySelector('.grid')
 const score = document.querySelector('#score')
-
+// variable to constraint pacman movement to the limits of the board
+const width = 28
 // 28 x 28 = 784
   // 0 - pac-dots
   // 1 - wall
@@ -83,38 +84,38 @@ function control(e){
 
     switch (e.key){
         case 'left': 
-            if(currentIndex % 28 !== 0){
+            if(currentIndex % width !== 0 && !squares[currentIndex -1].classList.contains('wall')){
                 currentIndex -=1
             }                   
         case 'ArrowLeft':
-            if(currentIndex % 28 !== 0){
+            if(currentIndex % width !== 0 && !squares[currentIndex -1].classList.contains('wall')){
                 currentIndex -=1            }           
         break
         case 'up':
-            if(currentIndex - 28 >= 0){
-                currentIndex -=28
+            if(currentIndex - width >= 0 && !squares[currentIndex -width].classList.contains('wall')){
+                currentIndex -= width
             }
         case 'ArrowUp':
-            if(currentIndex - 28 >= 0){
-                currentIndex -=28
+            if(currentIndex - width >= 0 && !squares[currentIndex -width].classList.contains('wall')){
+                currentIndex -= width
             }
         break
         case 'rigth':
-            if(currentIndex % 28 < 28-1){
+            if(currentIndex % width < width-1 && !squares[currentIndex +1].classList.contains('wall')){
                 currentIndex +=1
             }
         case 'ArrowRight':
-            if(currentIndex % 28 < 28-1){
+            if(currentIndex % width < width-1 && !squares[currentIndex +1].classList.contains('wall')){
                 currentIndex +=1
             }
         break
         case 'down':
-            if(currentIndex + 28 < 28*28){
-                currentIndex +=28
+            if(currentIndex + width < width*width && !squares[currentIndex +width].classList.contains('wall')){
+                currentIndex += width
             }
         case 'ArrowDown':
-            if(currentIndex + 28 < 28*28){
-                currentIndex +=28
+            if(currentIndex + width < width*width && !squares[currentIndex +width].classList.contains('wall')){
+                currentIndex += width
             }
         break
         default:
