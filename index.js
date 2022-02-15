@@ -84,37 +84,63 @@ function control(e){
 
     switch (e.key){
         case 'left': 
-            if(currentIndex % width !== 0 && !squares[currentIndex -1].classList.contains('wall')){
+            if(currentIndex % width !== 0                
+                && !squares[currentIndex -1].classList.contains('wall') 
+                && !squares[currentIndex -1].classList.contains('ghost-lair')
+            ){
                 currentIndex -=1
-            }                   
+            }else if(currentIndex % width === 0 && squares[currentIndex].classList.contains('empty')){
+                currentIndex +=27
+            }                  
         case 'ArrowLeft':
-            if(currentIndex % width !== 0 && !squares[currentIndex -1].classList.contains('wall')){
-                currentIndex -=1            }           
+            if(currentIndex % width !== 0 
+                && !squares[currentIndex -1].classList.contains('wall') 
+                && !squares[currentIndex -1].classList.contains('ghost-lair')){
+                currentIndex -=1            
+            }else if(currentIndex % width === 0 && squares[currentIndex].classList.contains('empty')){
+                currentIndex +=27
+            }           
         break
         case 'up':
-            if(currentIndex - width >= 0 && !squares[currentIndex -width].classList.contains('wall')){
+            if(currentIndex - width >= 0 
+                && !squares[currentIndex -width].classList.contains('wall') 
+                && !squares[currentIndex -width].classList.contains('ghost-lair')){
                 currentIndex -= width
             }
         case 'ArrowUp':
-            if(currentIndex - width >= 0 && !squares[currentIndex -width].classList.contains('wall')){
+            if(currentIndex - width >= 0 
+                && !squares[currentIndex -width].classList.contains('wall') 
+                && !squares[currentIndex -width].classList.contains('ghost-lair')){
                 currentIndex -= width
             }
         break
         case 'rigth':
-            if(currentIndex % width < width-1 && !squares[currentIndex +1].classList.contains('wall')){
+            if(currentIndex % width < width-1 
+                && !squares[currentIndex +1].classList.contains('wall') 
+                && !squares[currentIndex +1].classList.contains('ghost-lair')){
                 currentIndex +=1
+            }else if(currentIndex % width >= width-1 && squares[currentIndex].classList.contains('empty')){
+                currentIndex -=27
             }
         case 'ArrowRight':
-            if(currentIndex % width < width-1 && !squares[currentIndex +1].classList.contains('wall')){
+            if(currentIndex % width < width-1 
+                && !squares[currentIndex +1].classList.contains('wall') 
+                && !squares[currentIndex +1].classList.contains('ghost-lair')){
                 currentIndex +=1
+            }else if(currentIndex % width >= width-1 && squares[currentIndex].classList.contains('empty')){
+                currentIndex -=27
             }
         break
         case 'down':
-            if(currentIndex + width < width*width && !squares[currentIndex +width].classList.contains('wall')){
+            if(currentIndex + width < width*width 
+                && !squares[currentIndex +width].classList.contains('wall') 
+                && !squares[currentIndex +width].classList.contains('ghost-lair')){
                 currentIndex += width
             }
         case 'ArrowDown':
-            if(currentIndex + width < width*width && !squares[currentIndex +width].classList.contains('wall')){
+            if(currentIndex + width < width*width 
+                && !squares[currentIndex +width].classList.contains('wall') 
+                && !squares[currentIndex +width].classList.contains('ghost-lair')){
                 currentIndex += width
             }
         break
