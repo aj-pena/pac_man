@@ -79,11 +79,17 @@ createBoard()
 let currentIndex = 477
 squares[currentIndex].classList.add('pacman')
 
-// Control the movements of pacman
-function control(e){
+// Border conditionals for constraining the movements of pacman to the board:
+    // move left if index % 28 !== 0
+    // move right if index % 28 < 28-1
+    // move down if index + 28 < 28*28
+    // move up if index - 28 >= 0
+
+// moves pacman if border, wall, ghost-lair and empty conditions are satisfied
+function move(e){
     // erase pacman from starting position
     squares[currentIndex].classList.remove('pacman')
-
+    squares[currentIndex].classList.remove('pac-dot')
     switch (e.key){
         case 'left': 
             if(currentIndex % width !== 0                
@@ -94,11 +100,6 @@ function control(e){
             }
             if(currentIndex % width === 0 && squares[currentIndex].classList.contains('empty')){
                 currentIndex +=27
-            }
-            if (squares[currentIndex].classList.contains('pac-dot')){
-                scoreCounter ++
-                squares[currentIndex].classList.remove('pac-dot')
-                squares[currentIndex].classList.add('empty')
             }                  
         case 'ArrowLeft':
             if(currentIndex % width !== 0 
@@ -108,11 +109,6 @@ function control(e){
             }
             if(currentIndex % width === 0 && squares[currentIndex].classList.contains('empty')){
                 currentIndex +=27
-            }
-            if (squares[currentIndex].classList.contains('pac-dot')){
-                scoreCounter ++
-                squares[currentIndex].classList.remove('pac-dot')
-                squares[currentIndex].classList.add('empty')
             }           
         break
         case 'up':
@@ -121,21 +117,11 @@ function control(e){
                 && !squares[currentIndex -width].classList.contains('ghost-lair')){
                 currentIndex -= width
             }
-            if (squares[currentIndex].classList.contains('pac-dot')){
-                scoreCounter ++
-                squares[currentIndex].classList.remove('pac-dot')
-                squares[currentIndex].classList.add('empty')
-            }
         case 'ArrowUp':
             if(currentIndex - width >= 0 
                 && !squares[currentIndex -width].classList.contains('wall') 
                 && !squares[currentIndex -width].classList.contains('ghost-lair')){
                 currentIndex -= width
-            }
-            if (squares[currentIndex].classList.contains('pac-dot')){
-                scoreCounter ++
-                squares[currentIndex].classList.remove('pac-dot')
-                squares[currentIndex].classList.add('empty')
             }
         break
         case 'rigth':
@@ -147,11 +133,6 @@ function control(e){
             if(currentIndex % width >= width-1 && squares[currentIndex].classList.contains('empty')){
                 currentIndex -=27
             }
-            if (squares[currentIndex].classList.contains('pac-dot')){
-                scoreCounter ++
-                squares[currentIndex].classList.remove('pac-dot')
-                squares[currentIndex].classList.add('empty')
-            }
         case 'ArrowRight':
             if(currentIndex % width < width-1 
                 && !squares[currentIndex +1].classList.contains('wall') 
@@ -161,11 +142,6 @@ function control(e){
             if(currentIndex % width >= width-1 && squares[currentIndex].classList.contains('empty')){
                 currentIndex -=27
             }
-            if (squares[currentIndex].classList.contains('pac-dot')){
-                scoreCounter ++
-                squares[currentIndex].classList.remove('pac-dot')
-                squares[currentIndex].classList.add('empty')
-            }
         break
         case 'down':
             if(currentIndex + width < width*width 
@@ -173,21 +149,11 @@ function control(e){
                 && !squares[currentIndex +width].classList.contains('ghost-lair')){
                 currentIndex += width
             }
-            if (squares[currentIndex].classList.contains('pac-dot')){
-                scoreCounter ++
-                squares[currentIndex].classList.remove('pac-dot')
-                squares[currentIndex].classList.add('empty')
-            }
         case 'ArrowDown':
             if(currentIndex + width < width*width 
                 && !squares[currentIndex +width].classList.contains('wall') 
                 && !squares[currentIndex +width].classList.contains('ghost-lair')){
                 currentIndex += width
-            }
-            if (squares[currentIndex].classList.contains('pac-dot')){
-                scoreCounter ++
-                squares[currentIndex].classList.remove('pac-dot')
-                squares[currentIndex].classList.add('empty')
             }
         break
         default:
@@ -195,14 +161,19 @@ function control(e){
     }
     // draw pacman in new position
     squares[currentIndex].classList.add('pacman')
-    // update score
-    score.innerHTML = scoreCounter
-    // move left if index % 28 !== 0
-    // move right if index % 28 < 28-1
-    // move down if index + 28 < 28*28
-    // move up if index - 28 >= 0
-    
+    // eat the pac-dot in the new position
+    eat()       
+}
+
+function eat(){
+    if (squares[currentIndex].classList.contains('pac-dot')){
+        scoreCounter ++
+        squares[currentIndex].classList.remove('pac-dot')
+        squares[currentIndex].classList.add('empty')
+        // update score
+        score.innerHTML = scoreCounter
+    }
 }
 // event listener for arrow keys in the document
-document.addEventListener('keydown', control)
+document.addEventListener('keydown', move)
 
