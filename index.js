@@ -4,6 +4,8 @@ const score = document.querySelector('#score')
 // variable to constraint pacman movement to the limits of the board
 const width = 28
 let scoreCounter = 0
+// Index of pacman's position
+let currentIndex = 741
 // 28 x 28 = 784
   // 0 - pac-dots
   // 1 - wall
@@ -75,8 +77,7 @@ function createBoard(){
  
 createBoard()
 
-// Index of pacman's position
-let currentIndex = 741
+
 squares[currentIndex].classList.add('pacman')
 
 // Border conditionals for constraining the movements of pacman to the board:
@@ -162,9 +163,11 @@ function move(e){
     // draw pacman in new position
     squares[currentIndex].classList.add('pacman')
     // eat the pac-dot in the new position
-    eat()       
+    eat()
+    powerPelletEaten()       
 }
 
+// pac-dot is eaten
 function eat(){
     if (squares[currentIndex].classList.contains('pac-dot')){
         scoreCounter ++
@@ -174,6 +177,26 @@ function eat(){
         score.innerHTML = scoreCounter
     }
 }
+// Power-pellet is eaten
+function powerPelletEaten(){
+    // if pacman is in square with class of power pellet
+    if(squares[currentIndex].classList.contains('power-pellet')){
+        // increase score by 10
+        scoreCounter += 10
+        // remove power-pellet class
+        squares[currentIndex].classList.remove('power-pellet')        
+        // turn each of the ghosts into scared ghosts
+        ghosts.forEach(ghost => ghost.isScared = true)
+        // unscare ghost after a period of time
+        setTimeout(unScareGhosts, 10000 )
+    }
+        
+}
+// function to unscare the ghosts
+function unScareGhosts(){
+    ghosts.forEach(ghost => ghost.isScared = false)
+}
+
 // Creating template (class) for Ghosts
 // not all variables or properties defined for an object template (class) need to be passed as parameters
 class Ghost {
