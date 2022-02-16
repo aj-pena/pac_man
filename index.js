@@ -237,8 +237,8 @@ function moveGhost(ghost){
         if(!squares[ghost.currentIndex + randomDirection].classList.contains('wall') 
         && !squares[ghost.currentIndex + randomDirection].classList.contains('ghost') 
         ){
-        // erase ghost from original position, including the generic 'ghost' class
-        squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost')
+        // erase ghost from original position, including the generic 'ghost' class and the scared-ghost class
+        squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost')
         // // update ghost index with random direction
         ghost.currentIndex += randomDirection
         // // draw ghost on new position including the generic 'ghost' class
@@ -248,6 +248,9 @@ function moveGhost(ghost){
             randomIndex = Math.floor(Math.random()*directions.length)
             randomDirection = directions[randomIndex]
             // now that this is stored in a block variable, it will be used in the computations of the next interval of this setInterval() function
+        }
+        if(ghost.isScared){
+            squares[ghost.currentIndex].classList.add('scared-ghost')
         }
     }, ghost.speed)
 
