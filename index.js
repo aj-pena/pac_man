@@ -6,7 +6,7 @@ const width = 28
 let scoreCounter = 0
 // Index of pacman's position
 let currentIndex = 741
-// 28 x 28 = 784
+// 28 x 28 = 784 squares
   // 0 - pac-dots
   // 1 - wall
   // 2 - ghost-lair
@@ -164,7 +164,9 @@ function move(e){
     squares[currentIndex].classList.add('pacman')
     // eat the pac-dot in the new position
     eat()
-    powerPelletEaten()       
+    powerPelletEaten()
+    checkForGameOver()      
+    checkWin() 
 }
 
 // pac-dot is eaten
@@ -252,8 +254,49 @@ function moveGhost(ghost){
         if(ghost.isScared){
             squares[ghost.currentIndex].classList.add('scared-ghost')
         }
+        // if ghost is scared and pacman is on it
+        if(squares[ghost.currentIndex].classList.contains('scared-ghost') 
+        && squares[ghost.currentIndex].classList.contains('pacman')){    
+            // remove ghost.className, ghost and scared-ghost classes
+            squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost')
+            // change score with + 30
+            scoreCounter += 30
+            score.innerHTML = scoreCounter
+            // change ghost.currentIndex to startIndex
+            ghost.currentIndex = ghost.startIndex
+            // redraw ghost at start index with  ghost.className and ghost classes 
+            squares[ghost.currentIndex].classList.add(ghost.className, 'ghost')
+        }
+        checkForGameOver()                
     }, ghost.speed)
 
+
+}
+// checking for gameover
+function checkForGameOver(){
+    // if pacman is on the same square as a ghost that is not scared
+    if (squares[currentIndex].classList.contains('ghost')
+        && !squares[currentIndex].classList.contains('scared-ghost')){
+        // stop interval for each ghost
+        ghosts.forEach(ghost => clearInterval(ghost.timerId))
+        // Remove event Listener so that pacman cannot move
+        document.removeEventListener('keydown', move)
+        // change score to show Game Over message + score
+        score.innerHTML = `GAME OVER ! Your Score is ${scoreCounter}`
+
+    }
+}
+// checking for win
+function checkWin(){
+    // if score equals 300
+    if(scoreCounter === 300){
+        // stop ghosts by stoping the interval for each ghost
+        ghosts.forEach(ghost => clearInterval(ghost.timerId))
+        // stop pacman by removing the event listener
+        document.removeEventListener('keydown', move)
+        // tell our user that we've won
+        score.innerHTML = `You've WON!!! Congratulations! you have reached a score of 300`
+    }        
 
 }
 
