@@ -76,7 +76,7 @@ function createBoard(){
 createBoard()
 
 // Index of pacman's position
-let currentIndex = 477
+let currentIndex = 741
 squares[currentIndex].classList.add('pacman')
 
 // Border conditionals for constraining the movements of pacman to the board:
@@ -176,20 +176,23 @@ function eat(){
 }
 // Creating template (class) for Ghosts
 class Ghost {
-    constructor(name, startIndex, speed){
-        this.name = name
+    constructor(className, startIndex, speed){
+        this.className = className
         this.startIndex = startIndex
         this.speed = speed
     }
 }
 
-let ghosts =[
+const ghosts =[
     new Ghost ('blinky', 348, 250),
     new Ghost('pinky', 376, 400),
     new Ghost('inky', 351, 300),
     new Ghost('clyde', 379, 500)
 ]
-console.log(ghosts)
+
+// draw ghost into the ghost-lair
+
+ghosts.forEach(ghost => squares[ghost.startIndex].classList.add(ghost.className))
 
 
 // event listener for arrow keys in the document

@@ -23,7 +23,7 @@ body{
     box-sizing: border-box;
 }
 .wall{
-    background-color: blue;
+    background-color: darkslategray;
 }
 .power-pellet{
     background-color: green;
@@ -43,10 +43,10 @@ body{
     border: none;
 }
 .inky{
-    background-color: darkcyan;
+    background-color: lime;
     border: none;
 }
 .clyde{
-    background-color: orange;
+    background-color: blue;
     border: none;
 }
