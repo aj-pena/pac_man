@@ -175,11 +175,15 @@ function eat(){
     }
 }
 // Creating template (class) for Ghosts
+// not all variables or properties defined for an object template (class) need to be passed as parameters
 class Ghost {
     constructor(className, startIndex, speed){
         this.className = className
         this.startIndex = startIndex
         this.speed = speed
+        this.currentIndex = startIndex
+        this.isScared = false
+        this.timerId = NaN
     }
 }
 
@@ -190,10 +194,42 @@ const ghosts =[
     new Ghost('clyde', 379, 500)
 ]
 
-// draw ghost into the ghost-lair
+// draw ghost into the ghost-lair with their own class and a generic 'ghost' class
+ghosts.forEach(ghost => {
+    squares[ghost.startIndex].classList.add(ghost.className, 'ghost')
+})
+// move all the ghosts in the array
+ghosts.forEach(ghost => moveGhost(ghost))
 
-ghosts.forEach(ghost => squares[ghost.startIndex].classList.add(ghost.className))
+// move ghost
+function moveGhost(ghost){
+    // generate random direction from set of 4 possible directions Right, Left, Down, Up
+    const directions = [+1, -1, +width, -width] 
+    let randomIndex = Math.floor(Math.random()*directions.length)
+    let randomDirection = directions[randomIndex]
+    
+    // move ghost constantly at specific speed (interval in miliseconds)
+    ghost.timerId = setInterval(function(){
+        // check if next square is NOT a wall NOR a ghost
+        if(!squares[ghost.currentIndex + randomDirection].classList.contains('wall') 
+        && !squares[ghost.currentIndex + randomDirection].classList.contains('ghost') 
+        ){
+        // erase ghost from original position, including the generic 'ghost' class
+        squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost')
+        // // update ghost index with random direction
+        ghost.currentIndex += randomDirection
+        // // draw ghost on new position including the generic 'ghost' class
+        squares[ghost.currentIndex].classList.add(ghost.className, 'ghost')
+        } else {
+            // create new direction by reassigning new random index and reassigning new random direction
+            randomIndex = Math.floor(Math.random()*directions.length)
+            randomDirection = directions[randomIndex]
+            // now that this is stored in a block variable, it will be used in the computations of the next interval of this setInterval() function
+        }
+    }, ghost.speed)
 
+
+}
 
 // event listener for arrow keys in the document
 document.addEventListener('keydown', move)
